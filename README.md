@@ -9,8 +9,8 @@ Elle est divisée en 2 parties : Un back office pour les personnes qui gèrent l
 
 ### Diagramme de Classes
 
-[DC]()
+![DC](image/DC.png)
 
 ### Diagramme des Cas d'Utilisation
 
-[DCU]()
+![DCU](image/DCU.png)
