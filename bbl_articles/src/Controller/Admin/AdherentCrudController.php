@@ -22,7 +22,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Doctrine\ORM\Events;
+use Doctrine\ORM\Events; 
 
 class AdherentCrudController extends AbstractCrudController
 {
