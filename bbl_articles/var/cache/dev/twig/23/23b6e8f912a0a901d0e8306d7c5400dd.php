@@ -160,6 +160,6 @@ class __TwigTemplate_5c08f6361b2e8de275f8a31eed13f12d extends Template
         {% block body %}{% endblock %}
     </body>
 </html>
-", "base.html.twig", "D:\\DutInfo\\SAE-Dev-S6\\bbl_articles\\templates\\base.html.twig");
+", "base.html.twig", "C:\\Users\\julie\\Documents\\GitHub\\SAE-Dev-S6\\bbl_articles\\templates\\base.html.twig");
     }
 }

@@ -13,7 +13,7 @@ use App\Entity\Categorie;
 use App\Entity\Emprunt;
 use App\Entity\Livre;
 use App\Entity\Reservations;
-
+use App\Entity\Utilisateur;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -40,5 +40,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Reservations', 'fa fa-folder', Reservations::class);
         yield MenuItem::section('Configuration');
         yield MenuItem::linkToCrud('Adherent', 'fa fa-folder', Adherent::class);
+        yield MenuItem::linkToCrud('Utilisateur', 'fa fa-folder', Utilisateur::class);
     }
 }

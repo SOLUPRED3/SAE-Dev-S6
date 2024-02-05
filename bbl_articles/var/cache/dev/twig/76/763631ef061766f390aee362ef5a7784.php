@@ -101,6 +101,6 @@ class __TwigTemplate_472f5cd44768d369d6bd8efb24c4664b extends Template
     </div>
 
     <!-- Votre contenu personnalisé ici -->
-{% endblock %}", "admin/dashboard.html.twig", "D:\\DutInfo\\SAE-Dev-S6\\bbl_articles\\templates\\admin\\dashboard.html.twig");
+{% endblock %}", "admin/dashboard.html.twig", "C:\\Users\\julie\\Documents\\GitHub\\SAE-Dev-S6\\bbl_articles\\templates\\admin\\dashboard.html.twig");
     }
 }

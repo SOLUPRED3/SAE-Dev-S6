@@ -23,7 +23,7 @@ class Reservations
 
     #[ORM\OneToOne(inversedBy: 'reservations', cascade: ['persist', 'remove'],fetch: 'LAZY')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Adherent $reservateur = null;
+    private ?Utilisateur $reservateur = null;
 
     public function getId(): ?int
     {
@@ -54,12 +54,12 @@ class Reservations
         return $this;
     }
 
-    public function getReservateur(): ?Adherent
+    public function getReservateur(): ?Utilisateur
     {
         return $this->reservateur;
     }
 
-    public function setReservateur(Adherent $reservateur): static
+    public function setReservateur(Utilisateur $reservateur): static
     {
         $this->reservateur = $reservateur;
 

@@ -22,7 +22,7 @@ class Emprunt
 
     #[ORM\ManyToOne(inversedBy: 'emprunts',fetch: 'LAZY')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Adherent $emprunteur = null;
+    private ?Utilisateur $emprunteur = null;
 
     #[ORM\ManyToOne(inversedBy: 'emprunts',fetch: 'LAZY')]
     #[ORM\JoinColumn(nullable: false)]
@@ -57,12 +57,12 @@ class Emprunt
         return $this;
     }
 
-    public function getEmprunteur(): ?Adherent
+    public function getEmprunteur(): ?Utilisateur
     {
         return $this->emprunteur;
     }
 
-    public function setEmprunteur(?Adherent $emprunteur): static
+    public function setEmprunteur(?Utilisateur $emprunteur): static
     {
         $this->emprunteur = $emprunteur;
 
