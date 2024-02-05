@@ -23,9 +23,11 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events; 
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 class AdherentCrudController extends AbstractCrudController
 {
+
     private UserPasswordHasherInterface $encoder;
 
     public function __construct(UserPasswordHasherInterface $encoder)
@@ -41,15 +43,14 @@ class AdherentCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->hideOnForm(),
-            DateField::new('dateAdhesion'),
-            TextField::new('nom'),
+            IdField::new('id')->hideOnForm(),  
             TextField::new('prenom'),
+            TextField::new('nom'),
             DateField::new('dateNaiss'),
             EmailField::new('email'),
             TextField::new('adressePostale'),
             IntegerField::new('numTel'),
-            ImageField::new('photo')->setUploadDir('\public\uploads\photos'),
+            DateField::new('dateAdhesion'),
             TextField::new('password')
                 ->setFormType(RepeatedType::class)
                 ->setFormTypeOptions([
@@ -60,7 +61,7 @@ class AdherentCrudController extends AbstractCrudController
                 ])
                 ->setRequired($pageName === Crud::PAGE_NEW)
                 ->onlyOnForms(),
-            // Add other fields as needed
+            ImageField::new('photo')->setUploadDir('\public\uploads\photos'),
         ];
     }
 
@@ -93,7 +94,10 @@ class AdherentCrudController extends AbstractCrudController
             return;
         }
 
-        $hash = $this->encoder->hashPassword($event->getData(), $password);
-        $form->getData()->setPassword($hash);
+        // Use the $adherent parameter directly, which is already an instance of PasswordAuthenticatedUserInterface
+        $user = $form->getData();
+
+        $hashedPassword = $this->encoder->hashPassword($user, $password);
+        $user->setPassword($hashedPassword);
     }
 }

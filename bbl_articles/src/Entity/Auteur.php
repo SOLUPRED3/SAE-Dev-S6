@@ -37,7 +37,7 @@ class Auteur
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\ManyToMany(targetEntity: Livre::class, mappedBy: 'auteur',fetch: 'LAZY')]
+    #[ORM\ManyToMany(targetEntity: Livre::class, mappedBy: 'auteurs', fetch: 'LAZY')]
     private Collection $livres;
 
 
@@ -162,6 +162,12 @@ class Auteur
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->nom; 
+    }
+
 
 
 }

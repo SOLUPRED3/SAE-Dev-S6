@@ -7,9 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: AdherentRepository::class)]
-class Adherent
+class Adherent implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -188,12 +190,16 @@ class Adherent
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function setPassword(string $password): Adherent
     {
         $this->password = $password;
 
         return $this;
     }
+
 
     /**
      * @see UserInterface
@@ -250,4 +256,27 @@ class Adherent
 
         return $this;
     }
+    public function __toString()
+    {
+        return $this->nom; 
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getSalt(): ?string
+    {
+        // you can return a salt here if needed, or return null
+        return null;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getUsername(): string
+    {
+        return $this->email; // or whatever property you want to use as the username
+    }
+
+
 }

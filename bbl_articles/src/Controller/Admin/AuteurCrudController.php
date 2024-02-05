@@ -23,9 +23,10 @@ class AuteurCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            Field::new('nom'),
             Field::new('prenom'),
+            Field::new('nom'),
             DateField::new('dateNaiss')->setFormat('dd-MM-yyyy'),
+            DateField::new('dateDeces')->setFormat('dd-MM-yyyy'),
             Field::new('nationalite'),
             ImageField::new('photo')->setUploadDir('\public\uploads\photos'),
             TextField::new('description'),

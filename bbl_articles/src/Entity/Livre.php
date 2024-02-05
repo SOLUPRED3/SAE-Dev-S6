@@ -28,7 +28,7 @@ class Livre
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photoCouverture = null;
 
-    #[ORM\ManyToMany(targetEntity: Auteur::class, inversedBy: 'livresSupprimer',fetch: 'LAZY')]
+    #[ORM\ManyToMany(targetEntity: Auteur::class, inversedBy: 'livres', fetch: 'LAZY')]
     private Collection $auteurs;
 
     #[ORM\ManyToOne(inversedBy: 'livres',fetch: 'LAZY')]
@@ -111,11 +111,12 @@ class Livre
 
     public function addAuteur(Auteur $auteur): static
     {
-        if (!$this->auteurs->contains($auteur)) {
-            $this->auteurs->add($auteur);
-        }
+    if (!$this->auteurs->contains($auteur)) {
+        $this->auteurs->add($auteur);
+        $auteur->addLivre($this);
+    }
 
-        return $this;
+    return $this;
     }
 
     public function removeAuteur(Auteur $auteur): static
@@ -182,6 +183,10 @@ class Livre
         $this->reservations = $reservations;
 
         return $this;
+    }
+    public function __toString()
+    {
+        return $this->titre;
     }
 
 

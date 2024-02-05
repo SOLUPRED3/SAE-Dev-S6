@@ -80,4 +80,5 @@ class Emprunt
 
         return $this;
     }
+
 }
