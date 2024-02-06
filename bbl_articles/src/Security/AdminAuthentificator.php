@@ -31,7 +31,6 @@ class AdminAuthentificator extends AbstractLoginFormAuthenticator
         $email = $request->request->get('email', '');
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
 
-        //l'erreur arrive ici
         return new Passport(
             new UserBadge($email),
             new PasswordCredentials($request->request->get('password', '')),
