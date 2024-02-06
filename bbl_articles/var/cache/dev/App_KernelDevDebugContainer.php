@@ -16,7 +16,7 @@ if (!\class_exists(App_KernelDevDebugContainer::class, false)) {
 
 return new \ContainerUKmcLiO\App_KernelDevDebugContainer([
     'container.build_hash' => 'UKmcLiO',
-    'container.build_id' => 'a65b99bc',
-    'container.build_time' => 1707221217,
+    'container.build_id' => '7c624113',
+    'container.build_time' => 1707229452,
     'container.runtime_mode' => \in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) ? 'web=0' : 'web=1',
 ], __DIR__.\DIRECTORY_SEPARATOR.'ContainerUKmcLiO');

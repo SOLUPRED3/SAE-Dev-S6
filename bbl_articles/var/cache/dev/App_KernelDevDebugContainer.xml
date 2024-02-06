@@ -5840,6 +5840,12 @@
         <argument key="loader" type="service_closure" id=".errored..service_locator.y4_Zrx..Symfony\Component\Config\Loader\LoaderInterface"/>
       </argument>
     </service>
+    <service id=".service_locator.UrOEf8r" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="actions" type="service_closure" id=".errored..service_locator.UrOEf8r.EasyCorp\Bundle\EasyAdminBundle\Config\Actions"/>
+      </argument>
+    </service>
     <service id=".service_locator.Nb584vp" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -5850,12 +5856,6 @@
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="assets" type="service_closure" id=".errored..service_locator.wvbCcwL.EasyCorp\Bundle\EasyAdminBundle\Config\Assets"/>
-      </argument>
-    </service>
-    <service id=".service_locator.UrOEf8r" class="Symfony\Component\DependencyInjection\ServiceLocator">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="actions" type="service_closure" id=".errored..service_locator.UrOEf8r.EasyCorp\Bundle\EasyAdminBundle\Config\Actions"/>
       </argument>
     </service>
     <service id=".service_locator.kud45L1" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -6791,14 +6791,14 @@
     <service id=".errored..service_locator.y4_Zrx..Symfony\Component\Config\Loader\LoaderInterface" class="Symfony\Component\Config\Loader\LoaderInterface">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.y4_Zrx.&quot;: it needs an instance of &quot;Symfony\Component\Config\Loader\LoaderInterface&quot; but this type has been excluded from autowiring."/>
     </service>
+    <service id=".errored..service_locator.UrOEf8r.EasyCorp\Bundle\EasyAdminBundle\Config\Actions" class="EasyCorp\Bundle\EasyAdminBundle\Config\Actions">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.UrOEf8r&quot;: it references class &quot;EasyCorp\Bundle\EasyAdminBundle\Config\Actions&quot; but no such service exists."/>
+    </service>
     <service id=".errored..service_locator.Nb584vp.EasyCorp\Bundle\EasyAdminBundle\Config\Crud" class="EasyCorp\Bundle\EasyAdminBundle\Config\Crud">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.Nb584vp&quot;: it references class &quot;EasyCorp\Bundle\EasyAdminBundle\Config\Crud&quot; but no such service exists."/>
     </service>
     <service id=".errored..service_locator.wvbCcwL.EasyCorp\Bundle\EasyAdminBundle\Config\Assets" class="EasyCorp\Bundle\EasyAdminBundle\Config\Assets">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.wvbCcwL&quot;: it references class &quot;EasyCorp\Bundle\EasyAdminBundle\Config\Assets&quot; but no such service exists."/>
-    </service>
-    <service id=".errored..service_locator.UrOEf8r.EasyCorp\Bundle\EasyAdminBundle\Config\Actions" class="EasyCorp\Bundle\EasyAdminBundle\Config\Actions">
-      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.UrOEf8r&quot;: it references class &quot;EasyCorp\Bundle\EasyAdminBundle\Config\Actions&quot; but no such service exists."/>
     </service>
     <service id=".errored..service_locator.kud45L1.EasyCorp\Bundle\EasyAdminBundle\Config\Filters" class="EasyCorp\Bundle\EasyAdminBundle\Config\Filters">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.kud45L1&quot;: it references class &quot;EasyCorp\Bundle\EasyAdminBundle\Config\Filters&quot; but no such service exists."/>
@@ -7708,9 +7708,9 @@
     <service id="doctrine.orm.default_metadata_driver" alias=".doctrine.orm.default_metadata_driver"/>
     <service id="security.event_dispatcher.main" alias="debug.security.event_dispatcher.main"/>
     <service id=".service_locator.gFlme_s" alias=".service_locator.y4_Zrx."/>
+    <service id=".service_locator.1aiqmLQ" alias=".service_locator.UrOEf8r"/>
     <service id=".service_locator.b4Agcrj" alias=".service_locator.Nb584vp"/>
     <service id=".service_locator.rr8g6a9" alias=".service_locator.wvbCcwL"/>
-    <service id=".service_locator.1aiqmLQ" alias=".service_locator.UrOEf8r"/>
     <service id=".service_locator.A1CG8fu" alias=".service_locator.kud45L1"/>
     <service id=".service_locator.AMJoP_V" alias=".service_locator.t9B7cZ4"/>
     <service id=".service_locator.naWTw8u" alias=".service_locator.twrFs.m"/>
