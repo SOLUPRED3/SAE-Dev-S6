@@ -37,13 +37,13 @@ class AuteurCrudController extends AbstractCrudController
         ];
     }
     
-    public function configureActions(Actions $actions): Actions
-    {
-        if (!($this->isGranted('ROLE_MANAGER') or $this->isGranted('ROLE_ADMIN'))){
-            return $actions
-                ->disable(Action::DELETE, Action::NEW, Action::EDIT);
-        }else{
-            return $actions;
-        }
-    }
+    //public function configureActions(Actions $actions): Actions
+    //{
+    //    if (!($this->isGranted('ROLE_MANAGER') or $this->isGranted('ROLE_ADMIN'))){
+    //        return $actions
+    //            ->disable(Action::DELETE, Action::NEW, Action::EDIT);
+    //    }else{
+    //        return $actions;
+    //    }
+    //}
 }

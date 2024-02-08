@@ -31,23 +31,37 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        if ($this->isGranted('ROLE_USER') or $this->isGranted('ROLE_ADMIN')) {
             yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
             yield MenuItem::section('Catalogue');
             yield MenuItem::linkToCrud('Livre', 'fa fa-folder', Livre::class);
             yield MenuItem::linkToCrud('Categorie', 'fa fa-folder', Categorie::class);
             yield MenuItem::linkToCrud('Auteur', 'fa fa-file-text', Auteur::class);
-        }
-        if ($this->isGranted('ROLE_MEMBER') or $this->isGranted('ROLE_ADMIN')) {
             yield MenuItem::linkToCrud('Reservations', 'fa fa-folder', Reservations::class);
-        }
-        if ($this->isGranted('ROLE_LIBRARIAN') or $this->isGranted('ROLE_ADMIN')) {
             yield MenuItem::linkToCrud('Emprunt', 'fa fa-folder', Emprunt::class);
-        }
-        if ($this->isGranted('ROLE_MANAGER') or $this->isGranted('ROLE_ADMIN')) {
             yield MenuItem::section('Configuration');
             yield MenuItem::linkToCrud('Utilisateur', 'fa fa-folder', Utilisateur::class);
-        }
         
     }
+
+    //public function configureMenuItems(): iterable
+    //{
+    //    if ($this->isGranted('ROLE_USER') or $this->isGranted('ROLE_ADMIN')) {
+    //        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+    //        yield MenuItem::section('Catalogue');
+    //        yield MenuItem::linkToCrud('Livre', 'fa fa-folder', Livre::class);
+    //        yield MenuItem::linkToCrud('Categorie', 'fa fa-folder', Categorie::class);
+    //        yield MenuItem::linkToCrud('Auteur', 'fa fa-file-text', Auteur::class);
+    //    }
+    //    if ($this->isGranted('ROLE_MEMBER') or $this->isGranted('ROLE_ADMIN')) {
+    //        yield MenuItem::linkToCrud('Reservations', 'fa fa-folder', Reservations::class);
+    //    }
+    //    if ($this->isGranted('ROLE_LIBRARIAN') or $this->isGranted('ROLE_ADMIN')) {
+    //        yield MenuItem::linkToCrud('Emprunt', 'fa fa-folder', Emprunt::class);
+    //    }
+    //    if ($this->isGranted('ROLE_MANAGER') or $this->isGranted('ROLE_ADMIN')) {
+    //        yield MenuItem::section('Configuration');
+    //        yield MenuItem::linkToCrud('Utilisateur', 'fa fa-folder', Utilisateur::class);
+    //    }
+    //    
+    //}
 }

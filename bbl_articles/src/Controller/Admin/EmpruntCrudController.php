@@ -32,16 +32,16 @@ class EmpruntCrudController extends AbstractCrudController
         ];
     }
 
-    public function configureActions(Actions $actions): Actions
-    {
-        // If the user is not a manager or an admin, disable the delete, new and edit actions
-        if (!($this->isGranted('ROLE_MANAGER') or $this->isGranted('ROLE_ADMIN'))){
-            $actions->disable(Action::DELETE, Action::NEW, Action::EDIT);
-        }
-        // If the user is a member, disable the edit action
-        if ($this->isGranted('ROLE_LIBRARIAN')){
-            $actions->disable(Action::EDIT);
-        }
-        return $actions;
-    }
+    //public function configureActions(Actions $actions): Actions
+    //{
+    //    // If the user is not a manager or an admin, disable the delete, new and edit actions
+    //    if (!($this->isGranted('ROLE_MANAGER') or $this->isGranted('ROLE_ADMIN'))){
+    //        $actions->disable(Action::DELETE, Action::NEW, Action::EDIT);
+    //    }
+    //    // If the user is a member, disable the edit action
+    //    if ($this->isGranted('ROLE_LIBRARIAN')){
+    //        $actions->disable(Action::EDIT);
+    //    }
+    //    return $actions;
+    //}
 }

@@ -28,14 +28,14 @@ class ReservationsCrudController extends AbstractCrudController
         ];
     }
 
-    public function configureActions(Actions $actions): Actions
-    {
-        if (!($this->isGranted('ROLE_MANAGER') or $this->isGranted('ROLE_ADMIN'))){
-            $actions->disable(Action::DELETE, Action::NEW, Action::EDIT);
-        }
-        if ($this->isGranted('ROLE_MEMBER')){
-            $actions->disable(Action::EDIT);
-        }
-        return $actions;
-    }
+    //public function configureActions(Actions $actions): Actions
+    //{
+    //    if (!($this->isGranted('ROLE_MANAGER') or $this->isGranted('ROLE_ADMIN'))){
+    //        $actions->disable(Action::DELETE, Action::NEW, Action::EDIT);
+    //    }
+    //    if ($this->isGranted('ROLE_MEMBER')){
+    //        $actions->disable(Action::EDIT);
+    //    }
+    //    return $actions;
+    //}
 }
