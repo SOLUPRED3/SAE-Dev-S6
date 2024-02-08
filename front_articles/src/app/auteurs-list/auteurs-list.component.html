@@ -1,0 +1,7 @@
+<h2>Liste des Auteurs</h2>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let auteur of auteurs">
+    {{ auteur.nom }} {{ auteur.prenom }} - {{ auteur.nationalite }}
+    ({{ auteur.description }})
+  </li>
+</ul>

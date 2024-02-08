@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit92936d102647f0de71c092582f5548f8
+class ComposerStaticInit9ac3ac8ee129f19b6592b86a93167c03
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -420,7 +420,7 @@ class ComposerStaticInit92936d102647f0de71c092582f5548f8
         ),
         'Doctrine\\ORM\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/orm/lib/Doctrine/ORM',
+            0 => __DIR__ . '/..' . '/doctrine/orm/src',
         ),
         'Doctrine\\Migrations\\' => 
         array (
@@ -498,15 +498,16 @@ class ComposerStaticInit92936d102647f0de71c092582f5548f8
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
         'NumberFormatter' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/Resources/stubs/NumberFormatter.php',
         'Override' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/Override.php',
+        'SQLite3Exception' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/SQLite3Exception.php',
         '©' => __DIR__ . '/..' . '/symfony/cache/Traits/ValueWrapper.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit92936d102647f0de71c092582f5548f8::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit92936d102647f0de71c092582f5548f8::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit92936d102647f0de71c092582f5548f8::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit9ac3ac8ee129f19b6592b86a93167c03::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit9ac3ac8ee129f19b6592b86a93167c03::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit9ac3ac8ee129f19b6592b86a93167c03::$classMap;
 
         }, null, ClassLoader::class);
     }
