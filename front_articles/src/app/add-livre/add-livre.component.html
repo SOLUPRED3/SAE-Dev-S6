@@ -1,1 +1,36 @@
-<p>add-livre works!</p>
+<h2>Ajouter un Livre</h2>
+<form (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <label for="titre" class="form-label">Titre</label>
+    <input type="text" class="form-control" id="titre" [(ngModel)]="livre.titre" name="titre" required>
+  </div>
+  <div class="mb-3">
+    <label for="dateSortie" class="form-label">Date de Sortie</label>
+    <input type="date" class="form-control" id="dateSortie" [(ngModel)]="livre.dateSortie" name="dateSortie" required>
+  </div>
+  <div class="mb-3">
+    <label for="langue" class="form-label">Langue</label>
+    <input type="text" class="form-control" id="langue" [(ngModel)]="livre.langue" name="langue" required>
+  </div>
+  <div class="mb-3">
+    <label for="photoCouverture" class="form-label">Photo de Couverture</label>
+    <input type="text" class="form-control" id="photoCouverture" [(ngModel)]="livre.photoCouverture" name="photoCouverture" required>
+  </div>
+  <div class="mb-3">
+    <label for="categorieId" class="form-label">Catégorie</label>
+    <select class="form-control" id="categorieId" [(ngModel)]="livre.categorieId" name="categorieId" required>
+      <option *ngFor="let categorie of categories" [value]="categorie.id">{{ categorie.nom }}</option>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label for="auteurIds" class="form-label">Auteurs</label>
+    <select multiple class="form-control" id="auteurIds" [(ngModel)]="livre.auteurIds" name="auteurIds" required>
+      <option *ngFor="let auteur of auteurs" [value]="auteur.id">{{ auteur.nom }} {{ auteur.prenom }}</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Ajouter</button>
+
+  <div *ngIf="info" class="alert alert-danger">
+    <strong>{{ info }}</strong>
+  </div>
+</form>
