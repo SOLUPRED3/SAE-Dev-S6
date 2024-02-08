@@ -17,27 +17,43 @@ use App\Entity\Livre;
 class ReservationsController extends AbstractController
 {
     #[Route('/api/reservations', name: 'app_api_reservations', methods: ['GET'])]
-    public function index(ReservationsRepository $reservationsRepository ,LivreRepository $livreRepository, AdherentRepository $adherentRepository): JsonResponse
+    public function index(Request $request, ReservationsRepository $reservationsRepository ,LivreRepository $livreRepository, AdherentRepository $adherentRepository): JsonResponse
     {
+        $dateResa = $request->query->get('dateResa');
+
+        $reservateurName = $request->query->get('reservateur');
+
+        $livreName = $request->query->get('livre');
+
         $reservations = $reservationsRepository->findAll();
         $data = [];
 
         foreach($reservations as $reservation){
-            $id = $reservation->getId();
-            $dateResa = $reservation->getDateResa();
-
-            $reservateurId = $reservation->getReservateur();
-            $reservateur = $adherentRepository->find($reservateurId);
-
-            $livreId = $reservation->getLivre();
-            $livre = $livreRepository->find($livreId);
-
-            $data[] = [
-                'id' => $id,
-                'dateResa' => $dateResa,
-                'reservateur' => $reservateur ? $reservateur->getNom() : null,
-                'livre' => $livre ? $livre->getTitre() : null,
-            ];
+            if(
+                (
+                    $dateResa == null ||
+                    $dateResa == $reservation->getDateResa()->format('d/m/Y')
+                ) &&
+                preg_match('/'.$livreName.'/i', $reservation->getLivre()->getTitre()) &&
+                preg_match('/'.$reservateurName.'/i', $reservation->getReservateur()->getNom())
+            ){
+                
+                $reservateurId = $reservation->getReservateur();
+                $reservateur = $adherentRepository->find($reservateurId);
+                
+                $livreId = $reservation->getLivre();
+                $livre = $livreRepository->find($livreId);
+                
+                $data[] = [
+                    'id' => $reservation->getId(),
+                    'dateResa' => $reservation->getDateResa(),
+                    'reservateur' => $reservateur ? $reservateur->getNom() : null,
+                    'livre' => $livre ? $livre->getTitre() : null,
+                ];
+            }
+        }
+        if(empty($data)){
+            return new JsonResponse(['message' => 'No reservation found'], 404);
         }
         return $this->json($data);
     }

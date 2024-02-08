@@ -65,22 +65,19 @@ return [
                             .'|dherent/(\\d+)(?'
                                 .'|(*:318)'
                             .')'
-                            .'|uteur/(?'
-                                .'|(\\d+)(?'
-                                    .'|(*:344)'
-                                .')'
-                                .'|([^/]++)(*:361)'
+                            .'|uteur/(\\d+)(?'
+                                .'|(*:341)'
                             .')'
                         .')'
                         .'|livre/(\\d+)(?'
-                            .'|(*:385)'
+                            .'|(*:365)'
                         .')'
                         .'|reservations/(\\d+)(?'
-                            .'|(*:415)'
+                            .'|(*:395)'
                         .')'
                     .')'
                 .')'
-                .'|/_error/(\\d+)(?:\\.([^/]++))?(*:454)'
+                .'|/_error/(\\d+)(?:\\.([^/]++))?(*:434)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -113,23 +110,22 @@ return [
             [['_route' => 'app_api_adherent_update', '_controller' => 'App\\Controller\\Api\\AdherentController::update'], ['id'], ['PUT' => 0], null, false, true, null],
             [['_route' => 'app_api_adherent_delete', '_controller' => 'App\\Controller\\Api\\AdherentController::delete'], ['id'], ['DELETE' => 0], null, false, true, null],
         ],
-        344 => [
+        341 => [
             [['_route' => 'app_api_auteur_show', '_controller' => 'App\\Controller\\Api\\AuteurController::show'], ['id'], ['GET' => 0], null, false, true, null],
             [['_route' => 'app_api_auteur_delete', '_controller' => 'App\\Controller\\Api\\AuteurController::delete'], ['id'], ['DELETE' => 0], null, false, true, null],
             [['_route' => 'app_api_auteur_update', '_controller' => 'App\\Controller\\Api\\AuteurController::update'], ['id'], ['PUT' => 0], null, false, true, null],
         ],
-        361 => [[['_route' => 'app_test', '_controller' => 'App\\Controller\\Api\\AuteurController::test'], ['id'], ['TEST' => 0], null, false, true, null]],
-        385 => [
+        365 => [
             [['_route' => 'app_api_livre_show', '_controller' => 'App\\Controller\\Api\\LivreController::show'], ['id'], ['GET' => 0], null, false, true, null],
             [['_route' => 'app_api_livre_update', '_controller' => 'App\\Controller\\Api\\LivreController::update'], ['id'], ['PUT' => 0], null, false, true, null],
             [['_route' => 'app_api_livre_delete', '_controller' => 'App\\Controller\\Api\\LivreController::delete'], ['id'], ['DELETE' => 0], null, false, true, null],
         ],
-        415 => [
+        395 => [
             [['_route' => 'app_api_reservations_get', '_controller' => 'App\\Controller\\Api\\ReservationsController::getById'], ['id'], ['GET' => 0], null, false, true, null],
             [['_route' => 'app_api_reservations_update', '_controller' => 'App\\Controller\\Api\\ReservationsController::update'], ['id'], ['PUT' => 0], null, false, true, null],
             [['_route' => 'app_api_reservations_delete', '_controller' => 'App\\Controller\\Api\\ReservationsController::delete'], ['id'], ['DELETE' => 0], null, false, true, null],
         ],
-        454 => [
+        434 => [
             [['_route' => '_preview_error', '_controller' => 'error_controller::preview', '_format' => 'html'], ['code', '_format'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],

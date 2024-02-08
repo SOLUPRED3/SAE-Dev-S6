@@ -17,36 +17,77 @@ use App\Entity\Auteur;
 class LivreController extends AbstractController
 {
     #[Route('/api/livre', name: 'app_api_livre', methods: ['GET'])]
-    public function index(LivreRepository $livreRepository, CategorieRepository $categorieRepository, AuteurRepository $auteurRepository): JsonResponse
-    {
+    public function index(Request $request, LivreRepository $livreRepository, CategorieRepository $categorieRepository, AuteurRepository $auteurRepository): JsonResponse
+    {   
+        $titre = $request->query->get('titre');
+        $titre = preg_quote(strtolower($titre), '/');
+
+        $dateSortie = $request->query->get('dateSortie');
+
+        $langue = $request->query->get('langue');
+        $langue = preg_quote(strtolower($langue), '/');
+
+        $auteurName = $request->query->get('auteur');
+        $auteurName = preg_quote(strtolower($auteurName), '/');
+
+        $categorieName = $request->query->get('categorie');
+        $categorieName = preg_quote(strtolower($categorieName), '/');
+
         $livres = $livreRepository->findAll();
         $data = [];
+
         foreach ($livres as $livre) {
-            $categorieId = $livre->getCategorie();
-            $categorie = $categorieRepository->find($categorieId);
-    
-            $auteurIds = $livre->getAuteurs();
-            $auteurs = [];
-            foreach ($auteurIds as $auteurId) {
-                $auteur = $auteurRepository->find($auteurId);
-                if ($auteur) {
-                    $auteurs[] = $auteur->getNom();
+            if(
+                preg_match('/'.$titre.'/i', $livre->getTitre()) &&
+                (
+                    $dateSortie == null ||
+                    $dateSortie == $livre->getDateSortie()->format('d/m/Y')
+                ) &&
+                preg_match('/'.$langue.'/i', $livre->getLangue())&&
+                preg_match('/'.$categorieName.'/i', $livre->getCategorie()->getNom())
+            ){
+                $auteurIds = $livre->getAuteurs();
+                $auteurs = [];
+                foreach ($auteurIds as $auteurId) {
+                    $auteur = $auteurRepository->find($auteurId);
+                    if ($auteur) {
+                        $auteurs[] = $auteur->getNom();
+                    }
+                }
+
+                $auteursString = implode(', ', $auteurs);
+
+                if(preg_match('/'.$auteurName.'/i', $auteursString)){
+                    
+                    
+                    $categorieId = $livre->getCategorie();
+                    $categorie = $categorieRepository->find($categorieId);
+                    
+                    $auteurIds = $livre->getAuteurs();
+                    $auteurs = [];
+                    foreach ($auteurIds as $auteurId) {
+                        $auteur = $auteurRepository->find($auteurId);
+                        if ($auteur) {
+                            $auteurs[] = $auteur->getNom();
+                        }
+                    }
+                    
+                    $auteursString = implode(', ', $auteurs);
+                    
+                    $data[] = [
+                        'id' => $livre->getId(),
+                        'titre' => $livre->getTitre(),
+                        'dateSortie' => $livre->getdateSortie(),
+                        'langue' => $livre->getLangue(),
+                        'photoCouverture' => $livre->getPhotoCouverture(),
+                        'auteurs' => $auteursString,
+                        'categorie'=> $categorie ? $categorie->getNom() : null,
+                    ];
                 }
             }
-    
-            $auteursString = implode(', ', $auteurs);
-    
-            $data[] = [
-                'id' => $livre->getId(),
-                'titre' => $livre->getTitre(),
-                'dateSortie' => $livre->getdateSortie(),
-                'langue' => $livre->getLangue(),
-                'photoCouverture' => $livre->getPhotoCouverture(),
-                'auteurs' => $auteursString,
-                'categorie'=> $categorie ? $categorie->getNom() : null,
-                // 'emprunts'=> $livre->getEmprunts(),
-                // 'reservation'=> $livre->getReservations()
-            ];
+        }
+        if (empty($data)) {
+            return $this->json(['message' => 'No matching books found'], 404);
         }
         return $this->json($data);
     }

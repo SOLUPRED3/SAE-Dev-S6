@@ -17,29 +17,50 @@ use App\Entity\Livre;
 class EmpruntController extends AbstractController
 {
     #[Route('/api/emprunt', name: 'app_api_emprunt', methods: ['GET'])]
-    public function index(EmpruntRepository $empruntRepository ,LivreRepository $livreRepository, AdherentRepository $adherentRepository): JsonResponse
+    public function index(Request $request, EmpruntRepository $empruntRepository ,LivreRepository $livreRepository, AdherentRepository $adherentRepository): JsonResponse
     {
+        $dateEmprunt = $request->query->get('dateEmprunt');
+
+        $dateRetour = $request->query->get('dateRetour');
+
+        $emprunteurName = $request->query->get('emprunteur');
+
+        $livreName = $request->query->get('livre');
+
         $emprunts = $empruntRepository->findAll();
         $data = [];
 
         foreach($emprunts as $emprunts){
-            $id = $emprunts->getId();
-            $dateEmprunt = $emprunts->getDateEmprunt();
-            $dateRetour = $emprunts->getDateRetour();
-
-            $emprunteurId = $emprunts->getEmprunteur();
-            $emprunteur = $adherentRepository->find($emprunteurId);
-
-            $livreId = $emprunts->getLivre();
-            $livre = $livreRepository->find($livreId);
-
-            $data[] = [
-                'id' => $id,
-                'dateEmprunt' => $dateEmprunt,
-                'dateRetour' => $dateRetour,
-                'emprunteur' => $emprunteur ? $emprunteur->getNom() : null,
-                'livre' => $livre ? $livre->getTitre() : null,
-            ];
+            if(
+                (
+                    $dateEmprunt == null ||
+                    $dateEmprunt == $emprunts->getDateEmprunt()->format('d/m/Y')
+                ) &&
+                (
+                    $dateRetour == null ||
+                    $dateRetour == $emprunts->getDateRetour()->format('d/m/Y')
+                ) &&
+                preg_match('/'.$livreName.'/i', $emprunts->getLivre()->getTitre()) &&
+                preg_match('/'.$emprunteurName.'/i', $emprunts->getEmprunteur()->getNom())
+            ){
+                
+                $emprunteurId = $emprunts->getEmprunteur();
+                $emprunteur = $adherentRepository->find($emprunteurId);
+                
+                $livreId = $emprunts->getLivre();
+                $livre = $livreRepository->find($livreId);
+                
+                $data[] = [
+                    'id' => $emprunts->getId(),
+                    'dateEmprunt' => $emprunts->getDateEmprunt(),
+                    'dateRetour' => $emprunts->getDateRetour(),
+                    'emprunteur' => $emprunteur ? $emprunteur->getNom() : null,
+                    'livre' => $livre ? $livre->getTitre() : null,
+                ];
+            }
+        }
+        if(empty($data)){
+            return new JsonResponse(['message' => 'Emprunt not found'], 404);
         }
         return $this->json($data);
     }

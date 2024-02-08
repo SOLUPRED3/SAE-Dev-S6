@@ -13,24 +13,68 @@ use App\Entity\Adherent;
 class AdherentController extends AbstractController
 {
     #[Route('/api/adherent', name: 'app_api_adherent', methods: ['GET'])]
-    public function index(AdherentRepository $adherentRepository): JsonResponse
+    public function index(Request $request, AdherentRepository $adherentRepository): JsonResponse
     {
+        $nom = $request->query->get('nom');
+        $nom = preg_quote(strtolower($nom), '/');
+
+        $prenom = $request->query->get('prenom');
+        $prenom = preg_quote(strtolower($prenom), '/');
+
+        $dateNaiss = $request->query->get('dateNaiss');
+
+        $dateAdhesion = $request->query->get('dateAdhesion');
+
+        $email = $request->query->get('email');
+        $email = preg_quote(strtolower($email), '/');
+
+        $adressePostale = $request->query->get('adressePostale');
+        $adressePostale = preg_quote(strtolower($adressePostale), '/');
+        
+        $numTel = $request->query->get('numTel');
+        $numTel = preg_quote(strtolower($numTel), '/');
+
+        $roles = $request->query->get('roles');
+        $roles = preg_quote(strtolower($roles), '/');
+
+
         $adherents = $adherentRepository->findAll();
         $data = [];
         foreach ($adherents as $adherent) {
-            $data[] = [
-                'id' => $adherent->getId(),
-                'dateAdhesion' => $adherent->getDateAdhesion(),
-                'nom' => $adherent->getNom(),
-                'prenom' => $adherent->getPrenom(),
-                'dateNaiss' => $adherent->getDateNaiss(),
-                'email' => $adherent->getEmail(),
-                'adressePostale' => $adherent->getAdressePostale(),
-                'numTel' => $adherent->getNumTel(),
-                'photo' => $adherent->getPhoto(),
-                'roles' => $adherent->getRoles(),
-                'password' => $adherent->getPassword(),
-            ];
+            $rolesStr = implode(', ', $adherent->getRoles());
+            if(
+                preg_match('/'.$nom.'/i', $adherent->getNom()) &&
+                preg_match('/'.$prenom.'/i', $adherent->getPrenom()) && 
+                (
+                    $dateNaiss == null ||
+                    $dateNaiss == $adherent->getDateNaiss()->format('d/m/Y')
+                ) &&
+                (
+                    $dateAdhesion == null ||
+                    $dateAdhesion == $adherent->getDateAdhesion()->format('d/m/Y')
+                ) &&
+                preg_match('/'.$email.'/i', $adherent->getEmail()) &&
+                preg_match('/'.$adressePostale.'/i', $adherent->getAdressePostale()) &&
+                preg_match('/'.$numTel.'/i', $adherent->getNumTel()) &&
+                preg_match('/'.$roles.'/i', $rolesStr)
+            ){
+                $data[] = [
+                    'id' => $adherent->getId(),
+                    'dateAdhesion' => $adherent->getDateAdhesion(),
+                    'nom' => $adherent->getNom(),
+                    'prenom' => $adherent->getPrenom(),
+                    'dateNaiss' => $adherent->getDateNaiss(),
+                    'email' => $adherent->getEmail(),
+                    'adressePostale' => $adherent->getAdressePostale(),
+                    'numTel' => $adherent->getNumTel(),
+                    'photo' => $adherent->getPhoto(),
+                    'roles' => $adherent->getRoles(),
+                    'password' => $adherent->getPassword(),
+                ];
+            }
+        }
+        if(empty($data)){
+            return $this->json(['message' => 'No adherent found'], 404);
         }
         return $this->json($data);
     }

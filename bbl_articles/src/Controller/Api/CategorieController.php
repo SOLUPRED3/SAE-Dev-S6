@@ -13,16 +13,32 @@ use App\Entity\Categorie;
 class CategorieController extends AbstractController
 {
     #[Route('/api/categorie', name: 'app_api_categorie', methods: ['GET'])]
-    public function index(CategorieRepository $categorieRepository): JsonResponse
+    public function index(Request $request, CategorieRepository $categorieRepository): JsonResponse
     {
+        $nom = $request->query->get('nom');
+        $nom = preg_quote(strtolower($nom), '/');
+
+        $description = $request->query->get('description');
+        $description = preg_quote(strtolower($description), '/');
+
+
         $categories = $categorieRepository->findAll();
         $data = [];
+
         foreach ($categories as $categorie) {
-            $data[] = [
-                'id' => $categorie->getId(),
-                'nom' => $categorie->getNom(),
-                'description' => $categorie->getDescription(),
-            ];
+            if(
+                preg_match('/'.$nom.'/i', $categorie->getNom()) &&
+                preg_match('/'.$description.'/i', $categorie->getDescription())
+            ){
+                $data[] = [
+                    'id' => $categorie->getId(),
+                    'nom' => $categorie->getNom(),
+                    'description' => $categorie->getDescription(),
+                ];
+            }
+        }
+        if(empty($data)){
+            return $this->json(['message' => 'No categorie found'], 404);
         }
         return $this->json($data);
     }

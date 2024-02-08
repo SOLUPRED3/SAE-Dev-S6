@@ -16,36 +16,78 @@ use App\Entity\Livre;
 class AuteurController extends AbstractController
 {
     #[Route('/api/auteur', name: 'app_api_auteur', methods: ['GET'])]
-    public function index(AuteurRepository $auteurRepository, LivreRepository $livreRepository): JsonResponse
+    public function index(Request $request, AuteurRepository $auteurRepository, LivreRepository $livreRepository): JsonResponse
     {
+
+        $nom = $request->query->get('nom');
+        $nom = preg_quote(strtolower($nom), '/');
+
+        $prenom = $request->query->get('prenom');
+        $prenom = preg_quote(strtolower($prenom), '/');
+
+        $dateNaiss = $request->query->get('dateNaiss');
+
+        $dateDeces = $request->query->get('dateDeces');
+
+        $nationalite = $request->query->get('nationalite');
+        $nationalite = preg_quote(strtolower($nationalite), '/');
+
+        $description = $request->query->get('description');
+        $description = preg_quote(strtolower($description), '/');
+
+        $livreName = $request->query->get('livre');
+
         $auteurs = $auteurRepository->findAll();
         $data = [];
+        
+        foreach($auteurs as $auteur){
+            if(
+                preg_match('/'.$nom.'/i', $auteur->getNom()) &&
+                preg_match('/'.$prenom.'/i', $auteur->getPrenom()) && 
+                (
+                    $dateNaiss == null ||
+                    $dateNaiss == $auteur->getDateNaiss()->format('d/m/Y')
+                ) &&
+                (
+                    $dateDeces == null ||
+                    $dateDeces == $auteur->getDateDeces()->format('d/m/Y')
+                ) &&
+                preg_match('/'.$nationalite.'/i', $auteur->getNationalite()) &&
+                preg_match('/'.$description.'/i', $auteur->getDescription())
 
-        foreach ($auteurs as $auteur) {
-            $livreIds = $auteur->getLivres();
-            $livres = [];
-            foreach ($livreIds as $livreId) {
-                $livre = $livreRepository->find($livreId);
-                if ($livre) {
-                    $livres[] = $livre->getTitre();
+            ){
+                $livreIds = $auteur->getLivres();
+                $livres = [];
+                foreach ($livreIds as $livreId) {
+                    $livre = $livreRepository->find($livreId);
+                    if ($livre) {
+                        $livres[] = $livre->getTitre();
+                    }
+                }
+
+                $livresString = implode(', ', $livres);
+
+                if($livreName == null || preg_match('/'.$livreName.'/i', $livresString)){
+                    
+                    $data[] = [
+                        'id' => $auteur->getId(),
+                        'nom' => $auteur->getNom(),
+                        'prenom' => $auteur->getPrenom(),
+                        'dateNaiss' => $auteur->getDateNaiss(),
+                        'dateDeces' => $auteur->getDateDeces(),
+                        'nationalite' => $auteur->getNationalite(),
+                        'photo' => $auteur->getPhoto(),
+                        'description' => $auteur->getDescription(),
+                        'livres' => $livresString,
+                    ];
                 }
             }
-
-            $livresString = implode(', ', $livres);
-
-            $data[] = [
-                 'id' => $auteur->getId(),
-                 'nom' => $auteur->getNom(),
-                 'prenom' => $auteur->getPrenom(),
-                 'dateNaiss' => $auteur->getDateNaiss(),
-                 'dateDeces' => $auteur->getDateDeces(),
-                 'nationalite' => $auteur->getNationalite(),
-                 'photo' => $auteur->getPhoto(),
-                 'description' => $auteur->getDescription(),
-                 'livres' => $livresString,
-            ];
-            
         }
+
+        if(empty($data)){
+            return $this->json(['message' => 'No Auteur found'], 404);
+        }
+
         return $this->json($data);
     }
 
@@ -204,25 +246,5 @@ class AuteurController extends AbstractController
                 'message' => 'Aucune donnée reçue ou données invalides.',
             ], 400);
         }
-    }
-    
-    
-
-
-    #[Route('/api/auteur/{id}', name: 'app_test', methods: ['TEST'])]
-    public function test(Request $request): JsonResponse
-    {
-        $data = json_decode($request->getContent(), true);
-
-        $nom = $request->query->get('nom');
-        $prenom = $request->query->get('prenom');
-
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/Api/AuteurController.php',
-            'Nom' => $nom,
-            'Prenom' => $prenom
-        ]);
-    }
-    
+    }    
 }
