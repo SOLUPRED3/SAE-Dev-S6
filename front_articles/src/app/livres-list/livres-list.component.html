@@ -1,6 +1,11 @@
 <h2>Liste des Livres</h2>
+
+<!-- Ajouter un champ de saisie pour la recherche -->
+<input type="text" placeholder="Rechercher un livre..." [(ngModel)]="searchQuery" (change)="onSearchChange()">
+
+
 <ul class="list-group">
-  <li class="list-group-item" *ngFor="let livre of livres">
+  <li class="list-group-item" *ngFor="let livre of filteredLivres" (click)="onLivreSelected()">
     {{ livre.titre }} ({{ livre.langue }}) - 
     <span *ngFor="let auteurId of livre.auteurIds; let last = last">
       {{ getAuteurName(auteurId) }}
