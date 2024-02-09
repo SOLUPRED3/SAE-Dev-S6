@@ -68,11 +68,10 @@ class LivreController extends AbstractController
                     foreach ($auteurIds as $auteurId) {
                         $auteur = $auteurRepository->find($auteurId);
                         if ($auteur) {
-                            $auteurs[] = $auteur->getNom();
+                            $auteurs[] = $auteur->getId();
                         }
                     }
                     
-                    $auteursString = implode(', ', $auteurs);
                     
                     $data[] = [
                         'id' => $livre->getId(),
@@ -80,7 +79,7 @@ class LivreController extends AbstractController
                         'dateSortie' => $livre->getdateSortie(),
                         'langue' => $livre->getLangue(),
                         'photoCouverture' => $livre->getPhotoCouverture(),
-                        'auteurs' => $auteursString,
+                        'auteurs' => $auteurs,
                         'categorie'=> $categorie ? $categorie->getNom() : null,
                     ];
                 }

@@ -78,7 +78,7 @@ class AuteurController extends AbstractController
                         'nationalite' => $auteur->getNationalite(),
                         'photo' => $auteur->getPhoto(),
                         'description' => $auteur->getDescription(),
-                        'livres' => $livresString,
+                        'livres' => $livres,
                     ];
                 }
             }
@@ -119,7 +119,7 @@ class AuteurController extends AbstractController
             'nationalite' => $auteur->getNationalite(),
             'photo' => $auteur->getPhoto(),
             'description' => $auteur->getDescription(),
-            'livres' => $livresString,
+            'livres' => $livres,
         ];
         return $this->json($data);
     }

@@ -9,11 +9,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CategorieRepository;
 use App\Entity\Categorie;
+use App\Repository\LivreRepository;
+use App\Entity\Livre;
 
 class CategorieController extends AbstractController
 {
     #[Route('/api/categorie', name: 'app_api_categorie', methods: ['GET'])]
-    public function index(Request $request, CategorieRepository $categorieRepository): JsonResponse
+    public function index(Request $request, CategorieRepository $categorieRepository, LivreRepository $livreRepository): JsonResponse
     {
         $nom = $request->query->get('nom');
         $nom = preg_quote(strtolower($nom), '/');
@@ -23,17 +25,26 @@ class CategorieController extends AbstractController
 
 
         $categories = $categorieRepository->findAll();
+        $livres = $livreRepository->findAll();
+        
         $data = [];
-
+        
         foreach ($categories as $categorie) {
             if(
                 preg_match('/'.$nom.'/i', $categorie->getNom()) &&
                 preg_match('/'.$description.'/i', $categorie->getDescription())
             ){
+                $livresData = [];
+                foreach($livres as $livre){
+                    if($livre->getCategorie()->getId() == $categorie->getId()){
+                        $livresData[] = $livre->getTitre();
+                    }
+                }
                 $data[] = [
                     'id' => $categorie->getId(),
                     'nom' => $categorie->getNom(),
                     'description' => $categorie->getDescription(),
+                    'livres' => $livresData,
                 ];
             }
         }
@@ -44,16 +55,24 @@ class CategorieController extends AbstractController
     }
 
     #[Route('/api/categorie/{id}', name: 'app_api_categorie_show', methods: ['GET'], requirements: ['id' => '\d+'])]
-    public function show(CategorieRepository $categorieRepository, int $id): JsonResponse
+    public function show(CategorieRepository $categorieRepository, LivreRepository $livreRepository,int $id): JsonResponse
     {
         $categorie = $categorieRepository->find($id);
         if ($categorie === null) {
             return $this->json(['message' => 'Categorie not found'], 404);
         }
+        $livres = $livreRepository->findAll();
+        $livresData = [];
+                foreach($livres as $livre){
+                    if($livre->getCategorie()->getId() == $categorie->getId()){
+                        $livresData[] = $livre->getTitre();
+                    }
+                }
         $data = [
             'id' => $categorie->getId(),
             'nom' => $categorie->getNom(),
             'description' => $categorie->getDescription(),
+            'livres' => $livresData,
         ];
         return $this->json($data);
     }
