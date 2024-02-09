@@ -31,6 +31,10 @@ export class ApiService {
     return this.http.post<Livre>(`${this.apiUrl}/livre`, livre);
   }
 
+  getLivre(id: number): Observable<Livre> {
+    return this.http.get<Livre>(`${this.apiUrl}/livre/${id}`);
+  }
+
   // Lister les auteurs
   getAuteurs(): Observable<Auteur[]> {
     return this.http.get<Auteur[]>(`${this.apiUrl}/auteur`);

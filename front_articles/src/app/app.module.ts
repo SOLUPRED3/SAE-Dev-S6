@@ -11,6 +11,7 @@ import { CategoriesListComponent } from './categories-list/categories-list.compo
 import { LivresListComponent } from './livres-list/livres-list.component';
 import { AuteursListComponent } from './auteurs-list/auteurs-list.component';
 import { AddLivreComponent } from './add-livre/add-livre.component';
+import { LivreDetailComponent } from './livre-detail/livre-detail.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AddLivreComponent } from './add-livre/add-livre.component';
     CategoriesListComponent,
     LivresListComponent,
     AuteursListComponent,
-    AddLivreComponent
+    AddLivreComponent,
+    LivreDetailComponent
   ],
   imports: [
     BrowserModule,

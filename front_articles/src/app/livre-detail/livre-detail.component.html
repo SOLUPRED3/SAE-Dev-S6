@@ -1,0 +1,15 @@
+<div *ngIf="livre">
+    <h2>{{ livre.titre }}</h2>
+    <span *ngFor="let auteurId of livre.auteurIds; let last = last">
+        {{ getAuteurName(auteurId) }}
+        <ng-container *ngIf="!last">, </ng-container>
+    </span>
+    <div>
+        <img [src]="livre.photoCouverture" alt="Photo de couverture">
+    </div>
+    <p>Date de Sortie: {{ livre.dateSortie }}</p>
+    <p>Langue: {{ livre.langue }}</p>
+    <p>Catégorie: {{ livre.categorieId }}</p>
+    <!-- Other livre details -->
+  </div>
+  
