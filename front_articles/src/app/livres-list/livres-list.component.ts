@@ -13,6 +13,8 @@ export class LivresListComponent implements OnInit {
   auteurs: Auteur[] = [];
   filteredLivres: Livre[] = [];
   searchQuery: string = '';
+  selectedLangue: string = '';
+  langues: string[] = [];
 
   constructor(private apiService: ApiService) {}
 
@@ -51,5 +53,38 @@ export class LivresListComponent implements OnInit {
   // Fonction appelée lorsqu'un livre est sélectionné
   onLivreSelected(): void {
     this.applyFilter();
+  }
+
+  loadLivres(params?: any): void {
+    if (params) {
+      this.apiService.getLivresFiltered(params).subscribe(
+        (livres: Livre[]) => {
+          this.livres = livres;
+        },
+        (error) => {
+          console.error('Error fetching filtered livres:', error);
+        }
+      );
+    } else {
+      this.apiService.getLivres().subscribe(
+        (livres: Livre[]) => {
+          this.livres = livres;
+        },
+        (error) => {
+          console.error('Error fetching livres:', error);
+        }
+      );
+    }
+  }
+
+  applyFilters(category: string, langue: string): void {
+    const params: any = {};
+    if (category) {
+      params.category = category;
+    }
+    if (langue) {
+      params.langue = langue;
+    }
+    this.loadLivres(params);
   }
 }

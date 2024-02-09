@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Categorie } from '../models/categorie';
@@ -38,5 +38,15 @@ export class ApiService {
   // Lister les auteurs
   getAuteurs(): Observable<Auteur[]> {
     return this.http.get<Auteur[]>(`${this.apiUrl}/auteur`);
+  }
+
+  // Filtrer les livres
+  getLivresFiltered(params: any): Observable<Livre[]> {
+    let queryParams = new HttpParams();
+    Object.keys(params).forEach(key => {
+      queryParams = queryParams.append(key, params[key]);
+    });
+
+    return this.http.get<Livre[]>(this.apiUrl, { params: queryParams });
   }
 }
