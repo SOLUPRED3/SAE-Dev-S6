@@ -40,6 +40,9 @@ class AdherentController extends AbstractController
         $responseSize = $request->query->get('size');
         $responseOffset = $request->query->get('offset');
 
+        $sort = $request->query->get('sort');
+        $sort = explode(',', $sort);
+
 
         $adherents = $adherentRepository->findAll();
         $data = [];
@@ -82,6 +85,17 @@ class AdherentController extends AbstractController
 
         if($responseSize !== null && $responseOffset !== null){
             $data = array_slice($data, $responseOffset, $responseSize);
+        }
+
+        if(count($sort) == 2 && array_key_exists($sort[0], $data[0]) && in_array($sort[1], ['asc', 'desc'])){
+            foreach ($data as $key => $row) {
+                if (isset($row[$sort[0]])) {
+                    $sortColumn[$key] = $row[$sort[0]];
+                    $order[$key] = $row[$sort[0]];
+                }
+            }
+            
+            array_multisort($sortColumn, ($sort[1] === 'desc' ? SORT_DESC : SORT_ASC), $data);
         }
 
         return $this->json($data);
