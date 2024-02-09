@@ -2,5 +2,13 @@
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let categorie of categories">
     {{ categorie.nom }} ({{ categorie.description }})
+    <div *ngIf="categorie.livres && categorie.livres.length > 0">
+      <select (change)="onLivreSelected($event)">
+        <option value="">-- Sélectionner un livre --</option>
+        <option *ngFor="let livre of categorie.livres" [value]="livre">
+            {{ livre }}
+        </option>
+      </select>
+    </div>
   </li>
 </ul>

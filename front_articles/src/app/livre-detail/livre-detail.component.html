@@ -7,9 +7,8 @@
     <div>
         <img [src]="livre.photoCouverture" alt="Photo de couverture">
     </div>
-    <p>Date de Sortie: {{ livre.dateSortie }}</p>
+    <p>Date de Sortie: {{ livre.dateSortie | date:'dd/MM/yyyy' }}</p>
     <p>Langue: {{ livre.langue }}</p>
     <p>Catégorie: {{ livre.categorieId }}</p>
-    <!-- Other livre details -->
   </div>
   

@@ -5,5 +5,6 @@ export class Auteur {
         public prenom: string,
         public description: string,
         public nationalite: string,
+        public livres: string[]
     ) {}
 }

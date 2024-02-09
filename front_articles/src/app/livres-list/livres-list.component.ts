@@ -15,6 +15,8 @@ export class LivresListComponent implements OnInit {
   searchQuery: string = '';
   selectedLangue: string = '';
   langues: string[] = [];
+  size: number = 10; // Default value for size
+  offset: number = 0; // Default value for offset
 
   constructor(private apiService: ApiService) {}
 
@@ -55,36 +57,25 @@ export class LivresListComponent implements OnInit {
     this.applyFilter();
   }
 
-  loadLivres(params?: any): void {
-    if (params) {
-      this.apiService.getLivresFiltered(params).subscribe(
-        (livres: Livre[]) => {
-          this.livres = livres;
-        },
-        (error) => {
-          console.error('Error fetching filtered livres:', error);
-        }
-      );
-    } else {
-      this.apiService.getLivres().subscribe(
-        (livres: Livre[]) => {
-          this.livres = livres;
-        },
-        (error) => {
-          console.error('Error fetching livres:', error);
-        }
-      );
-    }
+  // Retrive all unique languages
+  getUniqueLangues(): void {
+    const languesSet = new Set<string>();
+    this.livres.forEach(livre => languesSet.add(livre.langue));
+    this.langues = Array.from(languesSet);
   }
 
-  applyFilters(category: string, langue: string): void {
+  // Fonction appelée lorsqu'une critere est sélectionnée
+  filterLivres(): void {
     const params: any = {};
-    if (category) {
-      params.category = category;
+    if (this.selectedLangue) {
+      params.langue = this.selectedLangue;
     }
-    if (langue) {
-      params.langue = langue;
-    }
-    this.loadLivres(params);
+    params.size = this.size;
+    params.offset = (this.offset - 1) * this.size;
+
+    this.apiService.getLivresFiltered(params).subscribe((data: Livre[]) => {
+      this.livres = data;
+      this.applyFilter(); // Appliquer le filtre initialement
+    });
   }
 }

@@ -3,5 +3,13 @@
   <li class="list-group-item" *ngFor="let auteur of auteurs">
     {{ auteur.nom }} {{ auteur.prenom }} - {{ auteur.nationalite }}
     ({{ auteur.description }})
+    <div *ngIf="auteur.livres && auteur.livres.length > 0">
+      <select (change)="onLivreSelected($event)">
+        <option value="">-- Sélectionner un livre --</option>
+        <option *ngFor="let livre of auteur.livres" [value]="livre">
+            {{ livre }}
+        </option>
+      </select>
+    </div>
   </li>
 </ul>
