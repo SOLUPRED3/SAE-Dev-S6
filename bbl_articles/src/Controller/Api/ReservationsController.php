@@ -25,6 +25,9 @@ class ReservationsController extends AbstractController
 
         $livreName = $request->query->get('livre');
 
+        $responseSize = $request->query->get('size');
+        $responseOffset = $request->query->get('offset');
+
         $reservations = $reservationsRepository->findAll();
         $data = [];
 
@@ -55,6 +58,11 @@ class ReservationsController extends AbstractController
         if(empty($data)){
             return new JsonResponse(['message' => 'No reservation found'], 404);
         }
+
+        if($responseSize !== null && $responseOffset !== null){
+            $data = array_slice($data, $responseOffset, $responseSize);
+        }
+        
         return $this->json($data);
     }
 

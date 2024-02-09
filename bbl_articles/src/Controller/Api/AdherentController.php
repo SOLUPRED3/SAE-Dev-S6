@@ -37,6 +37,9 @@ class AdherentController extends AbstractController
         $roles = $request->query->get('roles');
         $roles = preg_quote(strtolower($roles), '/');
 
+        $responseSize = $request->query->get('size');
+        $responseOffset = $request->query->get('offset');
+
 
         $adherents = $adherentRepository->findAll();
         $data = [];
@@ -76,6 +79,11 @@ class AdherentController extends AbstractController
         if(empty($data)){
             return $this->json(['message' => 'No adherent found'], 404);
         }
+
+        if($responseSize !== null && $responseOffset !== null){
+            $data = array_slice($data, $responseOffset, $responseSize);
+        }
+
         return $this->json($data);
     }
 

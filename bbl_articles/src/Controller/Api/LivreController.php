@@ -33,6 +33,9 @@ class LivreController extends AbstractController
         $categorieName = $request->query->get('categorie');
         $categorieName = preg_quote(strtolower($categorieName), '/');
 
+        $responseSize = $request->query->get('size');
+        $responseOffset = $request->query->get('offset');
+
         $livres = $livreRepository->findAll();
         $data = [];
 
@@ -88,6 +91,11 @@ class LivreController extends AbstractController
         if (empty($data)) {
             return $this->json(['message' => 'No matching books found'], 404);
         }
+
+        if($responseSize !== null && $responseOffset !== null){
+            $data = array_slice($data, $responseOffset, $responseSize);
+        }
+
         return $this->json($data);
     }
 
@@ -119,10 +127,8 @@ class LivreController extends AbstractController
             'dateSortie' => $livre->getdateSortie(),
             'langue' => $livre->getLangue(),
             'photoCouverture' => $livre->getPhotoCouverture(),
-            'auteurs' => $auteursString,
-            'categorie'=> $categorie ? $categorie->getNom() : null,
-            // 'emprunts'=> $livre->getEmprunts(),
-            // 'reservation'=> $livre->getReservations()
+            'auteurs' => $auteurs,
+            'categorie'=> $categorie ? $categorie->getNom() : null
         ];
         return $this->json($data);
     }

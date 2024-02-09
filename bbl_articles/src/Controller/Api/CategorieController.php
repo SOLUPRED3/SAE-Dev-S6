@@ -26,6 +26,9 @@ class CategorieController extends AbstractController
 
         $categories = $categorieRepository->findAll();
         $livres = $livreRepository->findAll();
+
+        $responseSize = $request->query->get('size');
+        $responseOffset = $request->query->get('offset');
         
         $data = [];
         
@@ -51,6 +54,11 @@ class CategorieController extends AbstractController
         if(empty($data)){
             return $this->json(['message' => 'No categorie found'], 404);
         }
+
+        if($responseSize !== null && $responseOffset !== null){
+            $data = array_slice($data, $responseOffset, $responseSize);
+        }
+        
         return $this->json($data);
     }
 

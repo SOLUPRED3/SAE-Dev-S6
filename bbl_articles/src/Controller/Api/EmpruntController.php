@@ -27,6 +27,10 @@ class EmpruntController extends AbstractController
 
         $livreName = $request->query->get('livre');
 
+        if($responseSize !== null && $responseOffset !== null){
+            $data = array_slice($data, $responseOffset, $responseSize);
+        }
+
         $emprunts = $empruntRepository->findAll();
         $data = [];
 
@@ -62,6 +66,11 @@ class EmpruntController extends AbstractController
         if(empty($data)){
             return new JsonResponse(['message' => 'Emprunt not found'], 404);
         }
+
+        if($responseSize !== null && $responseOffset !== null){
+            $data = array_slice($data, $responseOffset, $responseSize);
+        }
+        
         return $this->json($data);
     }
 

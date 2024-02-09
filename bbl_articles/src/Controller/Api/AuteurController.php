@@ -37,6 +37,9 @@ class AuteurController extends AbstractController
 
         $livreName = $request->query->get('livre');
 
+        $responseSize = $request->query->get('size');
+        $responseOffset = $request->query->get('offset');
+
         $auteurs = $auteurRepository->findAll();
         $data = [];
         
@@ -86,6 +89,10 @@ class AuteurController extends AbstractController
 
         if(empty($data)){
             return $this->json(['message' => 'No Auteur found'], 404);
+        }
+        
+        if($responseSize !== null && $responseOffset !== null){
+            $data = array_slice($data, $responseOffset, $responseSize);
         }
 
         return $this->json($data);
