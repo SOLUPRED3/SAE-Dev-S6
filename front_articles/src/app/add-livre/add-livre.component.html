@@ -23,8 +23,8 @@
     </select>
   </div>
   <div class="mb-3">
-    <label for="auteurIds" class="form-label">Auteurs</label>
-    <select multiple class="form-control" id="auteurIds" [(ngModel)]="livre.auteurIds" name="auteurIds" required>
+    <label for="auteurs" class="form-label">Auteurs</label>
+    <select multiple class="form-control" id="auteurs" [(ngModel)]="livre.auteurs" name="auteurs" required>
       <option *ngFor="let auteur of auteurs" [value]="auteur.id">{{ auteur.nom }} {{ auteur.prenom }}</option>
     </select>
   </div>

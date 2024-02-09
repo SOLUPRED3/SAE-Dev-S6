@@ -16,6 +16,7 @@ export class LivresListComponent implements OnInit {
   ngOnInit(): void {
     this.apiService.getLivres().subscribe((data: Livre[]) => {
       this.livres = data;
+      console.log(this.livres);
     });
     this.apiService.getAuteurs().subscribe((data: Auteur[]) => { 
       this.auteurs = data;

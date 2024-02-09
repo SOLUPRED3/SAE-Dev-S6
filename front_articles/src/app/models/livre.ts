@@ -7,6 +7,6 @@ export class Livre {
         public langue: string,
         public photoCouverture: string,
         public categorieId: number,
-        public auteurIds: number[],
+        public auteurs: number[],
     ) {}
 }

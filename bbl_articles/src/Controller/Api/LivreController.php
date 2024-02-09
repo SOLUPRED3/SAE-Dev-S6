@@ -144,10 +144,10 @@ class LivreController extends AbstractController
         $langue = $data['langue'] ?? null;
         $photoCouverture = $data['photoCouverture'] ?? null;
         $categorieId = $data['categorieId'] ?? null;
-        $auteurIds = $data['auteurIds'] ?? [];
+        $auteurs = $data['auteurs'] ?? [];
 
         // Vérifier si les données requises sont présentes
-        if (!$titre || !$dateSortie || !$langue || !$categorieId || empty($auteurIds)) {
+        if (!$titre || !$dateSortie || !$langue || !$categorieId || empty($auteurs)) {
             return new JsonResponse(['error' => 'Missing required fields'], 400);
         }
 
@@ -166,7 +166,7 @@ class LivreController extends AbstractController
         $livre->setCategorie($categorie);
 
         // Récupérer et associer les auteurs
-        foreach ($auteurIds as $auteurId) {
+        foreach ($auteurs as $auteurId) {
             $auteur = $auteurRepository->find($auteurId);
             if (!$auteur) {
                 return new JsonResponse(['error' => 'Author not found'], 404);

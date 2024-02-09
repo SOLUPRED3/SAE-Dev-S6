@@ -1,10 +1,12 @@
 <h2>Liste des Livres</h2>
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let livre of livres">
-    {{ livre.titre }} ({{ livre.langue }}) - 
-    <span *ngFor="let auteurId of livre.auteurIds; let last = last">
-      {{ getAuteurName(auteurId) }}
-      <ng-container *ngIf="!last">, </ng-container>
-    </span>
+    <a [routerLink]="['/livres', livre.titre]">
+      {{ livre.titre }} ({{ livre.langue }}) - 
+      <span *ngFor="let auteur of livre.auteurs; let last = last">
+        {{ getAuteurName(auteur) }}
+        <ng-container *ngIf="!last">, </ng-container>
+      </span>
+    </a>
   </li>
 </ul>
